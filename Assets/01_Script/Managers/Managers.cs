@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -11,6 +12,9 @@ public class Managers : MonoBehaviour
 
     private InputManager _input = new InputManager();
     public static InputManager Input { get { return Instance._input; } }
+
+    private ResourceManager _resouce = new ResourceManager();
+    public static ResourceManager Resource { get { return Instance._resouce; } }
 
     public static Managers GetInstance()
     {
@@ -30,7 +34,7 @@ public class Managers : MonoBehaviour
 
     private static void Init()
     {
-        if (Instance == null)
+        if (s_Instance == null)
         {
             GameObject go = GameObject.Find("@Managers");
             if (go == null)

@@ -31,25 +31,25 @@ public class Player : MonoBehaviour
 
     void OnKeyBoardInput()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             //transform.rotation = Quaternion.LookRotation(Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), speed);
             transform.position += Vector3.forward * Time.deltaTime * speed;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             //transform.rotation = Quaternion.LookRotation(Vector3.back);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), speed);
             transform.position += Vector3.back * Time.deltaTime * speed;
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             //transform.rotation = Quaternion.LookRotation(Vector3.left);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), speed);
             transform.position += Vector3.left * Time.deltaTime * speed;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             //transform.rotation = Quaternion.LookRotation(Vector3.right);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), speed);
