@@ -6,7 +6,12 @@ using UnityEngine.PlayerLoop;
 
 public class Managers : MonoBehaviour
 {
-    static Managers Instance;
+    private static Managers s_Instance;
+    static Managers Instance { get { Init(); return s_Instance; } }
+
+    private InputManager _input = new InputManager();
+    public static InputManager Input { get { return Instance._input; } }
+
     public static Managers GetInstance()
     {
         Init();
@@ -16,6 +21,11 @@ public class Managers : MonoBehaviour
     private void Start()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        _input.OnUpdate();
     }
 
     private static void Init()
@@ -29,7 +39,7 @@ public class Managers : MonoBehaviour
                 go.AddComponent<Managers>();
             }
             DontDestroyOnLoad(go);
-            Instance = go.GetComponent<Managers>();
+            s_Instance = go.GetComponent<Managers>();
         }
     }
 }
