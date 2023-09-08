@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,32 +18,32 @@ public class UI_Button : UI_Base
     {
         ItemIcon
     }
-
     enum GameObjects
     {
         TestObject
     }
-
-    private int _score = 0;
 
     private void Start()
     {
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Image>(typeof(Images));
-        Bind<GameObject>(typeof(GameObjects));
+        //Bind<GameObject>(typeof(GameObjects));
 
         GetText((int)Texts.Score_txt).text = $"Score : {_score}";
 
         GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-        UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
-        evt.OndragHandler += ((PointerEventData data) => { go.transform.position = data.position; });
+        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
+
+        GetButton((int)Buttons.ScoreUp_btn).gameObject.AddUIEvent(OnButtonClicked);
+
+
     }
 
-    public void OnButtonClicked()
+    private int _score = 0;
+    public void OnButtonClicked(PointerEventData pEventData)
     {
         _score++;
-        Debug.Log("Button Clicked");
-        Get<TextMeshProUGUI>((int)Texts.Score_txt).text = $"Score : {_score}";
+        GetText((int)Texts.Score_txt).text = $"Score : {_score}";
     }
 }

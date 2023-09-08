@@ -13,4 +13,10 @@ public class Define : MonoBehaviour
     {
         QuaterView
     }
+
+    public enum UIEvent
+    {
+        Click,
+        Drag
+    }
 }
