@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Versioning;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class Managers : MonoBehaviour
 {
@@ -15,6 +10,9 @@ public class Managers : MonoBehaviour
 
     private ResourceManager _resouce = new ResourceManager();
     public static ResourceManager Resource { get { return Instance._resouce; } }
+
+    private UIManager _ui = new UIManager();
+    public static UIManager UI { get { return Instance._ui; } }
 
     public static Managers GetInstance()
     {
