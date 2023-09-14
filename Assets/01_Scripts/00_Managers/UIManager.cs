@@ -7,6 +7,7 @@ public class UIManager
     private int _order = 10;
 
     private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    private UI_Scene _sceneUI = null;
 
     public void SetCanvas(GameObject go, bool sort = true)
     {
@@ -24,6 +25,19 @@ public class UIManager
             canvas.sortingOrder = 0;
         }
     }
+    
+    public GameObject Root
+    {
+        get
+        {
+            GameObject root = GameObject.Find("@UI_Root");
+            root = GameObject.Find("@UI_Root");
+            if (root == null)
+                root = new GameObject { name = "@UI_Root" };
+            return root;
+        }
+        
+    }
 
     public T ShowPopupUI<T>(string prefabName = null) where T : UI_Popup
     {
@@ -34,13 +48,26 @@ public class UIManager
         T popup = Util.GetOrAddComponent<T>(go);
         _popupStack.Push(popup);
 
-        GameObject root = GameObject.Find("@UI_Root");
-        if (root == null)
-            root = new GameObject { name = "@UI_Root" };
-        go.transform.SetParent(root.transform);
+        go.transform.SetParent(Root.transform);
 
         return popup;
     }
+
+    public T ShowSceneUI<T>(string prefabName = null) where T : UI_Scene
+    {
+        if (string.IsNullOrWhiteSpace(prefabName))
+            prefabName = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"Prefabs/UI/Scene/{prefabName}");
+        T sceneUI = Util.GetOrAddComponent<T>(go);
+        _sceneUI = sceneUI;
+
+        go.transform.SetParent(Root.transform);
+
+        return sceneUI;
+    }
+
+    
 
     public void ClosePopupUI()
     {
