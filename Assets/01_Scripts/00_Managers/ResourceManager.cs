@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceManager
@@ -9,19 +7,22 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
-    public GameObject Instantiate(string path)
+    public GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject prefab = Load<GameObject>($"{path}");
-
         if (prefab == null)
         {
             Debug.Log($"Failed to load prefab : {path}");
             return null;
         }
-        else
+        
+        GameObject go = Object.Instantiate(prefab, parent);
+        int index = go.name.IndexOf("(Clone)");
+        if (index > 0)
         {
-            return Object.Instantiate(prefab);
+            go.name = go.name.Substring(0, index);
         }
+        return go;
     }
 
     public void Destroy(GameObject go, float t = 0)

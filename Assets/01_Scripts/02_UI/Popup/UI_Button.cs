@@ -40,7 +40,7 @@ public class UI_Button : UI_Popup
         GetText((int)Texts.Score_txt).text = $"Score : {_score}";
 
         GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
+        BindEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
 
         GetButton((int)Buttons.ScoreUp_btn).gameObject.AddUIEvent(OnButtonClicked);
     }

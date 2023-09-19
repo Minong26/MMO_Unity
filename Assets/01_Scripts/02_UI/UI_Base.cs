@@ -5,12 +5,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour
 {
     private Dictionary<Type, UnityEngine.Object[]> _object = new Dictionary<Type, UnityEngine.Object[]>();
+
+    public abstract void Init();
+
     protected Button GetButton(int idx) { return Get<Button>(idx); }
     protected Image GetImage(int idx) { return Get<Image>(idx); }
     protected TextMeshProUGUI GetText(int idx) { return Get<TextMeshProUGUI>(idx); }
+    protected GameObject GetObject(int idx) { return Get<GameObject>(idx); }
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
@@ -40,7 +44,7 @@ public class UI_Base : MonoBehaviour
         return objects[idx] as T;
     }
 
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
         switch (type)
