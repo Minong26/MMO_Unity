@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LoginScene : BaseScene
 {
@@ -13,12 +12,12 @@ public class LoginScene : BaseScene
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SceneManager.LoadScene("Game");
+            Managers.Scene.LoadScene(Define.Scene.Game);
         }
     }
 
     public override void Clear()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("LoginScene Clear");
     }
 }
