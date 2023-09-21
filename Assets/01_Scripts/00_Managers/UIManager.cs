@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -79,8 +78,6 @@ public class UIManager
         return sceneUI;
     }
 
-    
-
     public void ClosePopupUI()
     {
         if (_popupStack.Count == 0)
@@ -110,5 +107,11 @@ public class UIManager
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+
+    public void Clear()
+    {
+        _sceneUI = null;
+        CloseAllPopupUI();
     }
 }

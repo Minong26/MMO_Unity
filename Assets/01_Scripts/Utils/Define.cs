@@ -25,4 +25,11 @@ public class Define : MonoBehaviour
         Click,
         Drag
     }
+
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        MaxCount
+    }
 }
