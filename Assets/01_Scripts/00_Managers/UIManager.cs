@@ -35,7 +35,6 @@ public class UIManager
                 root = new GameObject { name = "@UI_Root" };
             return root;
         }
-        
     }
 
     public T MakeSubItem<T>(Transform parent = null, string prefabName = null) where T : UI_Base

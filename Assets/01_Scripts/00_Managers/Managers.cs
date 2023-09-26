@@ -20,15 +20,16 @@ public class Managers : MonoBehaviour
     private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
 
+    private PoolManager _pool = new PoolManager();
+    public static PoolManager Pool { get { return Instance._pool; } }
+
+    private DataManager _data = new DataManager();
+    public static DataManager Data { get { return Instance._data; } }
+
     public static Managers GetInstance()
     {
         Init();
         return Instance;
-    }
-
-    private void Start()
-    {
-        Init();
     }
 
     private void Update()
@@ -49,6 +50,8 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             s_Instance = go.GetComponent<Managers>();
             s_Instance._sound.Init();
+            s_Instance._pool.Init();
+            s_Instance._data.Init();
         }
     }
 
@@ -58,5 +61,6 @@ public class Managers : MonoBehaviour
         Input.Clear();
         Scene.Clear();
         UI.Clear();
+        Pool.Clear();
     }
 }

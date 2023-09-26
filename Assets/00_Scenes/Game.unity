@@ -505,6 +505,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -585,43 +586,13 @@ MonoBehaviour:
   _mode: 0
   _delta: {x: 0, y: 5.09, z: -4.28}
   _player: {fileID: 260686438}
---- !u!136 &1951626578
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260686438}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.13251746
-  m_Height: 1.5218421
-  m_Direction: 1
-  m_Center: {x: 0.0012439489, y: 0.75903815, z: 0.0085942745}
---- !u!54 &1951626579
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260686438}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!81 &1951626583
+--- !u!81 &963194230
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260686438}
+  m_GameObject: {fileID: 963194225}
   m_Enabled: 1
 --- !u!1001 &1653480988402690356
 PrefabInstance:
@@ -630,21 +601,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1653480988070239333, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1653480988242831958, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1653480988242832210, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
       propertyPath: m_Name
       value: UnityChan
-      objectReference: {fileID: 0}
-    - target: {fileID: 1653480988242832226, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1653480988242933618, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
       propertyPath: m_RootOrder
@@ -690,9 +649,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1653480988250085844, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c7863436c2876ef46913f835eb1e7e95, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 434afbe4423d7e846bbb0edeafa6c099, type: 3}
