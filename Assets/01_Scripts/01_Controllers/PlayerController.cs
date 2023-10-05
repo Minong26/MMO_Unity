@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100, Color.red, 1.0f);
+        //Debug.DrawRay(Camera.main.transform.position, ray.direction * 100, Color.red, 1.0f);
 
         RaycastHit hit;
         if (Input.GetMouseButtonUp(0) && Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Wall")))
@@ -62,14 +63,23 @@ public class PlayerController : MonoBehaviour
     private void UpdateRunning()
     {
         Vector3 dir = _destPos - transform.position;
-        if (dir.magnitude < 0.0001f)
+        if (dir.magnitude < 0.1f)
         {
             _state = PlayerState.Idle;
             return;
         }
 
-        float mouseDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-        transform.position += dir.normalized * mouseDist;
+        float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+        NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
+        nma.Move(dir.normalized * moveDist);
+
+
+        Debug.DrawRay(transform.position + Vector3.up * .5f, dir.normalized, Color.green);
+        if (Physics.Raycast(transform.position + Vector3.up * .5f, dir, 1.0f, LayerMask.GetMask("Blcok")))
+        {
+            _state = PlayerState.Idle;
+            return;
+        }
 
         if (dir.magnitude > .01f)
         {
