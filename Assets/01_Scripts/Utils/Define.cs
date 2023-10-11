@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Define : MonoBehaviour
 {
+    public enum Layer
+    {
+        Monster = 6,
+        Ground = 7,
+        Blcok = 8
+    }
+
     public enum Scene
     {
         Unknown,
@@ -12,7 +19,10 @@ public class Define : MonoBehaviour
 
     public enum MouseEvent
     {
-        Press, Click
+        Press,
+        PointerDown,
+        PointerUp,
+        Click
     }
 
     public enum CameraMode
