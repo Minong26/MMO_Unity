@@ -20,7 +20,6 @@ public class CursorController : MonoBehaviour
         Hand
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateCursor();
@@ -30,6 +29,9 @@ public class CursorController : MonoBehaviour
     private CursorType _cursorType = CursorType.None;
     private void UpdateCursor()
     {
+        if (Input.GetMouseButton(0))
+            return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, _mask))

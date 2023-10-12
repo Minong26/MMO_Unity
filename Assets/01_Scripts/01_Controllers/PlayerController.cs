@@ -1,45 +1,67 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    //public float speed = 10.0f;
     private PlayerStat _stat;
     private Vector3 _destPos;
 
-
-
-    private float wait_n_run_ratio = 0;
+    //private float wait_n_run_ratio = 0;
 
     void Start()
     {
-
-
         _stat = gameObject.GetComponent<PlayerStat>();
-        Managers.Input.MouseAction -= OnMouseClicked;
-        Managers.Input.MouseAction += OnMouseClicked;
+        Managers.Input.MouseAction -= OnMouseEvent;
+        Managers.Input.MouseAction += OnMouseEvent;
     }
-
-
 
     private enum PlayerState
     {
         Die,
         Idle,
-        Running
+        Moving,
+        Skill
     }
 
-    private PlayerState _state = PlayerState.Idle;
+    [SerializeField]
+    private PlayerState state = PlayerState.Idle;
+    PlayerState State
+    {
+        get { return state; }
+        set
+        {
+            state = value;
+
+            Animator anim = GetComponent<Animator>();
+            switch (State)
+            {
+                case PlayerState.Idle:
+                    anim.CrossFade("Wait", .1f);
+                    break;
+                case PlayerState.Moving:
+                    anim.CrossFade("Run", .1f);
+                    break;
+                case PlayerState.Skill:
+                    anim.CrossFade("Attack", .1f, -1, 0);
+                    break;
+                case PlayerState.Die:
+                    break;
+            }
+        }
+    }
+
     private void Update()
     {
-        switch (_state)
+        switch (State)
         {
             case PlayerState.Idle:
                 UpdateIdle();
                 break;
-            case PlayerState.Running:
-                UpdateRunning();
+            case PlayerState.Moving:
+                UpdateMoving();
+                break;
+            case PlayerState.Skill:
+                UpdateSkill();
                 break;
             case PlayerState.Die:
                 UpdateDie();
@@ -48,39 +70,74 @@ public class PlayerController : MonoBehaviour
     }
 
     private int _mask = (1 << (int)Define.Layer.Ground | (1 << (int)Define.Layer.Monster));
-    private void OnMouseClicked(Define.MouseEvent obj)
+    private GameObject _lockTarget;
+    private bool _stopSkill = false;
+    private void OnMouseEvent(Define.MouseEvent evt)
     {
-        if (_state == PlayerState.Die)
+        if (State == PlayerState.Die)
             return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //Debug.DrawRay(Camera.main.transform.position, ray.direction * 100, Color.red, 1.0f);
-
-        RaycastHit hit;
-        if (Input.GetMouseButtonUp(0) && Physics.Raycast(ray, out hit, 100, _mask))
+        switch (State)
         {
-            _destPos = hit.point;
-            _state = PlayerState.Running;
+            case PlayerState.Idle:
+                OnMouseEvent_IdleRun(evt);
+                break;
+            case PlayerState.Moving:
+                OnMouseEvent_IdleRun(evt);
+                break;
+            case PlayerState.Skill:
+                if (evt == Define.MouseEvent.PointerUp)
+                    _stopSkill = true;
+                break;
+        }
+    }
 
-            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
-                Debug.Log("Monster Clicked");
-            else
-                Debug.Log("Ground Cliked");
+    private void OnMouseEvent_IdleRun(Define.MouseEvent evt)
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool raycastHit = Physics.Raycast(ray, out hit, 100, _mask);
+
+        switch (evt)
+        {
+            case Define.MouseEvent.PointerDown:
+                if (raycastHit)
+                {
+                    _destPos = hit.point;
+                    State = PlayerState.Moving;
+
+                    if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+                        _lockTarget = hit.collider.gameObject;
+                    else
+                        _lockTarget = null;
+                }
+                break;
+            case Define.MouseEvent.Press:
+                if (_lockTarget == null && raycastHit)
+                    _destPos = hit.point;
+                break;
         }
     }
 
     private void UpdateIdle()
     {
-        wait_n_run_ratio = Mathf.Lerp(wait_n_run_ratio, 0, 5 * Time.deltaTime);
-        Animator anim = GetComponent<Animator>();
-        anim.SetFloat("Speed_f", 0);
+
     }
-    private void UpdateRunning()
+    private void UpdateMoving()
     {
+        if (_lockTarget != null)
+        {
+            float distance = (_destPos - transform.position).magnitude;
+            if (distance <= 1)
+            {
+                State = PlayerState.Skill;
+            }
+        }
+
         Vector3 dir = _destPos - transform.position;
         if (dir.magnitude < 0.1f)
         {
-            _state = PlayerState.Idle;
+            State = PlayerState.Idle;
             return;
         }
 
@@ -91,7 +148,8 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.up * .5f, dir.normalized, Color.green);
         if (Physics.Raycast(transform.position + Vector3.up * .5f, dir, 1.0f, LayerMask.GetMask("Blcok")))
         {
-            _state = PlayerState.Idle;
+            if (Input.GetMouseButton(0) == false)
+                State = PlayerState.Idle;
             return;
         }
 
@@ -101,13 +159,22 @@ public class PlayerController : MonoBehaviour
         }
 
         //Play Animation
-        wait_n_run_ratio = Mathf.Lerp(wait_n_run_ratio, 1, 5 * Time.deltaTime);
-        Animator anim = GetComponent<Animator>();
-        anim.SetFloat("Speed_f", _stat.MoveSpeed);
+        //wait_n_run_ratio = Mathf.Lerp(wait_n_run_ratio, 1, 5 * Time.deltaTime);
     }
+    private void UpdateSkill()
+    {
 
+    }
+    private void OnHitEvent()
+    {
+        if (_stopSkill)
+            State = PlayerState.Idle;
+        else
+            State = PlayerState.Skill;
+    }
     private void UpdateDie()
     {
-        Debug.Log("You Died");
+        Animator anim = GetComponent<Animator>();
+        anim.SetBool("Attack_b", true);
     }
 }
