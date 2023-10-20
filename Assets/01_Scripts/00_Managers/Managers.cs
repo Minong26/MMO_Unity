@@ -3,27 +3,23 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     private static Managers s_Instance;
-    static Managers Instance { get { Init(); return s_Instance; } }
-
+    private GameManager _game = new GameManager();
     private InputManager _input = new InputManager();
-    public static InputManager Input { get { return Instance._input; } }
-
     private ResourceManager _resouce = new ResourceManager();
-    public static ResourceManager Resource { get { return Instance._resouce; } }
-
     private UIManager _ui = new UIManager();
-    public static UIManager UI { get { return Instance._ui; } }
-
     private SceneManagerEx _scene = new SceneManagerEx();
-    public static SceneManagerEx Scene { get { return Instance._scene; } }
-
     private SoundManager _sound = new SoundManager();
-    public static SoundManager Sound { get { return Instance._sound; } }
-
     private PoolManager _pool = new PoolManager();
-    public static PoolManager Pool { get { return Instance._pool; } }
-
     private DataManager _data = new DataManager();
+
+    static Managers Instance { get { Init(); return s_Instance; } }
+    public static GameManager Game { get { return Instance._game; } }
+    public static InputManager Input { get { return Instance._input; } }
+    public static ResourceManager Resource { get { return Instance._resouce; } }
+    public static UIManager UI { get { return Instance._ui; } }
+    public static SceneManagerEx Scene { get { return Instance._scene; } }
+    public static SoundManager Sound { get { return Instance._sound; } }
+    public static PoolManager Pool { get { return Instance._pool; } }
     public static DataManager Data { get { return Instance._data; } }
 
     public static Managers GetInstance()

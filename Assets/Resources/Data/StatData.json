@@ -1,7 +1,7 @@
 {
 	"stats" : [
-		{"level" : "1", "hp" : "100", "atk" : "10"},
-		{"level" : "2", "hp" : "150", "atk" : "15"},
-		{"level" : "3", "hp" : "200", "atk" : "20"}
+		{"level" : "1", "maxHp" : "100", "atk" : "10", "totalExp" : "0"},
+		{"level" : "2", "maxHp" : "150", "atk" : "15", "totalExp" : "10"},
+		{"level" : "3", "maxHp" : "200", "atk" : "20", "totalExp" : "20"}
 	]
 }

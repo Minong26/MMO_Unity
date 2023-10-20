@@ -37,6 +37,22 @@ public class UIManager
         }
     }
 
+    public T MakeWorldSpaceUI<T>(Transform parent = null, string prefabName = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(prefabName))
+            prefabName = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"Prefabs/UI/WorldSpace/{prefabName}");
+        if (parent != null)
+            go.transform.SetParent(parent);
+
+        Canvas canvas = go.GetOrAddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+
+        return Util.GetOrAddComponent<T>(go);
+    }
+
     public T MakeSubItem<T>(Transform parent = null, string prefabName = null) where T : UI_Base
     {
         if (string.IsNullOrEmpty(prefabName))

@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Define : MonoBehaviour
 {
+    public enum WorldObject
+    {
+        Unknown,
+        Player,
+        Monster
+    }
+
     public enum Layer
     {
         Monster = 6,
@@ -23,6 +30,13 @@ public class Define : MonoBehaviour
         PointerDown,
         PointerUp,
         Click
+    }
+    public enum State
+    {
+        Die,
+        Idle,
+        Moving,
+        Skill
     }
 
     public enum CameraMode

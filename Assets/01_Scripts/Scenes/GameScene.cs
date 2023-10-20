@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameScene : BaseScene
 {
@@ -12,6 +13,11 @@ public class GameScene : BaseScene
         Data.Stat stat = dic[1];
 
         gameObject.GetOrAddComponent<CursorController>();
+
+        GameObject player = Managers.Game.Spawn(Define.WorldObject.Player, "Prefabs/UnityChan");
+        Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
+
+        Managers.Game.Spawn(Define.WorldObject.Monster, "Prefabs/Knight");
     }
 
     public override void Clear()
