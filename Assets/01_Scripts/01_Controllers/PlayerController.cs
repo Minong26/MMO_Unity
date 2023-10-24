@@ -13,6 +13,7 @@ public class PlayerController : BaseController
         Managers.Input.MouseAction -= OnMouseEvent;
         Managers.Input.MouseAction += OnMouseEvent;
         Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
+        Managers.UI.MakeWorldSpaceUI<UI_Level>(transform);
     }
 
     private int _mask = (1 << (int)Define.Layer.Ground | (1 << (int)Define.Layer.Monster));

@@ -7,20 +7,16 @@ public class UI_Button : UI_Popup
 {
     enum Buttons
     {
-        ScoreUp_btn
+        Login_btn
     }
     enum Texts
     {
-        ScoreUpBtn_txt,
-        Score_txt,
+        LoginBtn_txt,
+        Login_txt,
     }
     enum Images
     {
-        ItemIcon
-    }
-    enum GameObjects
-    {
-        TestObject
+        Login_img
     }
 
     private void Start()
@@ -35,20 +31,15 @@ public class UI_Button : UI_Popup
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Image>(typeof(Images));
-        //Bind<GameObject>(typeof(GameObjects));
 
-        GetText((int)Texts.Score_txt).text = $"Score : {_score}";
+        GetText((int)Texts.Login_txt).text = $"Press Q to Login";
+        GetText((int)Texts.LoginBtn_txt).text = "Login";
 
-        GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-        BindEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
-
-        GetButton((int)Buttons.ScoreUp_btn).gameObject.AddUIEvent(OnButtonClicked);
+        GetButton((int)Buttons.Login_btn).gameObject.AddUIEvent(OnButtonClicked);
     }
 
-    private int _score = 0;
     public void OnButtonClicked(PointerEventData pEventData)
     {
-        _score++;
-        GetText((int)Texts.Score_txt).text = $"Score : {_score}";
+        Managers.Scene.LoadScene(Define.Scene.Game);
     }
 }

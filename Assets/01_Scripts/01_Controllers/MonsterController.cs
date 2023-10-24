@@ -7,13 +7,18 @@ public class MonsterController : BaseController
     private float _scanRange = 5.0f;
     private float _attackRange = 2.0f;
 
+    private Vector3 originPos;
+
     void Start()
     {
         WorldObjectType = Define.WorldObject.Monster;
         _stat = gameObject.GetComponent<Stat>();
+        originPos = gameObject.transform.position;
 
         if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
             Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
+        if (gameObject.GetComponentInChildren<UI_Level>() == null)
+            Managers.UI.MakeWorldSpaceUI<UI_Level>(transform);
     }
 
     protected override void UpdateIdle()
@@ -47,7 +52,7 @@ public class MonsterController : BaseController
         }
 
         Vector3 dir = _destPos - transform.position;
-        if (dir.magnitude < 0.1f)
+        if (dir.magnitude < 0.1f || dir.magnitude > _scanRange)
         {
             State = Define.State.Idle;
             return;

@@ -41,7 +41,7 @@ public class PlayerStat : Stat
         _level = 1;
         _exp = 0;
         _def = 5;
-        _moveSpeed = 5.0f;
+        _moveSpeed = 7.0f;
         _gold = 0;
 
         SetStat(_level);
@@ -57,9 +57,9 @@ public class PlayerStat : Stat
         _atk = stat.atk;
     }
 
-
     protected override void OnDead(Stat attacker)
     {
+        Managers.Game.Despawn(gameObject);
         Debug.Log("Player Dead");
     }
 }
