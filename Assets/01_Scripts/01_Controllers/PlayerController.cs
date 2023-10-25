@@ -116,6 +116,9 @@ public class PlayerController : BaseController
         if (_stopSkill)
             State = Define.State.Idle;
         else
+        {
             State = Define.State.Skill;
+            Managers.Sound.Play("Sounds/Unity-Chan Voice/univ0001");
+        }
     }
 }

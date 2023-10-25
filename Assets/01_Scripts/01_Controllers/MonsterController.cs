@@ -7,13 +7,10 @@ public class MonsterController : BaseController
     private float _scanRange = 5.0f;
     private float _attackRange = 2.0f;
 
-    private Vector3 originPos;
-
     void Start()
     {
         WorldObjectType = Define.WorldObject.Monster;
         _stat = gameObject.GetComponent<Stat>();
-        originPos = gameObject.transform.position;
 
         if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
             Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
@@ -42,7 +39,7 @@ public class MonsterController : BaseController
         {
             _destPos = _lockTarget.transform.position;
             float distance = (_destPos - transform.position).magnitude;
-            if (distance <= 1)
+            if (distance <= _attackRange)
             {
                 NavMeshAgent nma2 = gameObject.GetOrAddComponent<UnityEngine.AI.NavMeshAgent>();
                 nma2.SetDestination(transform.position);
@@ -58,9 +55,8 @@ public class MonsterController : BaseController
             return;
         }
 
-        float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
         NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
-        nma.Move(dir.normalized * moveDist);
+        nma.SetDestination(_destPos);
 
         Debug.DrawRay(transform.position + Vector3.up * .5f, dir.normalized, Color.green);
         if (Physics.Raycast(transform.position + Vector3.up * .5f, dir, 1.0f, LayerMask.GetMask("Blcok")))
@@ -102,7 +98,10 @@ public class MonsterController : BaseController
             {
                 float distance = (_lockTarget.transform.position - transform.position).magnitude;
                 if (distance <= _attackRange)
+                {
                     State = Define.State.Skill;
+                    Managers.Sound.Play("Sounds/Unity-Chan Voice/univ0001");
+                }
                 else
                     State = Define.State.Moving;
             }

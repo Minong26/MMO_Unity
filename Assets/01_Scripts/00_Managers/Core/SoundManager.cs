@@ -60,9 +60,6 @@ public class SoundManager
 
     AudioClip GetOrAddAudioClip(string path, Define.Sound type)
     {
-        if (path.Contains("Sounds/Unity-Chan Voice/") == false)
-            path = $"Sounds/Unity-Chan Voice/{path}";
-
         AudioClip audioClip = null;
         if (type == Define.Sound.Bgm)
         {

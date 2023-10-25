@@ -13,6 +13,8 @@ public class GameScene : BaseScene
         GameObject player = Managers.Game.Spawn(Define.WorldObject.Player, "Prefabs/UnityChan");
         Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
 
+        Managers.Sound.Play("Sounds/BGM/Crescent-Moon", Define.Sound.Bgm);
+
         //Managers.Game.Spawn(Define.WorldObject.Monster, "Prefabs/Knight");
         GameObject go = new GameObject { name = "SpawningPool" };
         SpawningPool pool = go.GetOrAddComponent<SpawningPool>();
